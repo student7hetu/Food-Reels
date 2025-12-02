@@ -12,11 +12,11 @@ const PartnerLogin = () => {
     const email = e.target.email.value;
     const password = e.target.password.value;
     try {
-      const res = await axios.post('/api/auth/partner/login', { email, password }, { withCredentials: true });
+      const res = await axios.post('/api/auth/food-partner/login', { email, password }, { withCredentials: true });
       console.log('Partner login success', res.data);
       toast.success('Logged in successfully');
       sessionStorage.setItem('homeSeen', 'true');
-      navigate('/');
+      navigate('/create-food');
     } catch (err) {
       const status = err.response?.status;
       const message = err.response?.data?.message || err.message;

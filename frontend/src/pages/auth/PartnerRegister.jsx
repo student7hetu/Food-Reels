@@ -10,18 +10,18 @@ const PartnerRegister = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const contactName = e.target.contactName.value;
-    const businessName = e.target.businessName.value;
+    const name = e.target.name.value;
     const phone = e.target.phone.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
     const address = e.target.address.value;
 
     try {
-      const res = await axios.post('/api/auth/partner/register', { contactName, businessName, phone, email, password, address }, { withCredentials: true });
+      const res = await axios.post('/api/auth/food-partner/register', { name, contactName, phone, email, password, address }, { withCredentials: true });
       console.log('Partner register success', res.data);
       toast.success('Partner account created');
       sessionStorage.setItem('homeSeen', 'true');
-      navigate('/');
+      navigate('/create-food');
     } catch (err) {
       const status = err.response?.status;
       const message = err.response?.data?.message || err.message;
@@ -49,8 +49,8 @@ const PartnerRegister = () => {
           <label htmlFor="contactName">Contact name</label>
           <input id="contactName" name="contactName" className="auth-field" placeholder="John Doe" />
 
-          <label htmlFor="businessName">Business name</label>
-          <input id="businessName" name="businessName" className="auth-field" placeholder="My Tasty Kitchen" />
+          <label htmlFor="name">Business name</label>
+          <input id="name" name="name" className="auth-field" placeholder="My Tasty Kitchen" />
 
           <label htmlFor="phone">Phone number</label>
           <input id="phone" name="phone" type="tel" className="auth-field" placeholder="+1 (555) 987-6543" />
