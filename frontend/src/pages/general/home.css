@@ -1,0 +1,103 @@
+@import '../../assets/styles/variables.css';
+
+.home-reels {
+  height: 100vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+  background: var(--bg);
+}
+
+.reel-item {
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reel-video {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  display: block;
+}
+
+.reel-overlay {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  right: 1.25rem;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+
+.reel-description {
+  max-width: 100%;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.98rem;
+  /* truncate to 2 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  -o-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.reel-description { flex: 1 1 auto; margin-right: 0.75rem; }
+
+.reel-bottom-panel{ /* new panel that looks like auth-card */
+  display:flex;
+  align-items:center;
+  gap:0.6rem;
+  justify-content: space-between;
+  background: var(--card-bg);
+  color: var(--text);
+  border-radius: var(--radius);
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  max-width: 90%;
+}
+.reel-actions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  justify-content:flex-start;
+}
+.store-btn{
+  background: var(--accent);
+  color: var(--accent-contrast);
+  padding: 0.45rem 0.8rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* subtle backdrop for text so it's readable on videos */
+.reel-overlay::after{
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 60%;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.05) 40%);
+  border-radius: 0;
+}
+
+@media (max-width:520px){
+  .reel-description{ font-size: 0.98rem; max-width: 95%; }
+  .reel-overlay{ left:1rem; right:1rem; }
+  .store-btn{ padding: 0.45rem 0.65rem; }
+}
