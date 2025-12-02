@@ -1,8 +1,32 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../../assets/styles/auth.css';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const UserLogin = () => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    try {
+      const res = await axios.post(
+        '/api/auth/user/login',
+        { email, password },
+        { withCredentials: true }
+      );
+      console.log('Success:', res.data);
+      toast.success('Logged in successfully');
+      sessionStorage.setItem('homeSeen', 'true');
+      navigate('/');
+    } catch (err) {
+      console.error('Login failed:', err?.response?.data || err.message);
+    }
+  };
   return (
     <div className="auth-container">
       <div className="auth-card">
@@ -14,7 +38,7 @@ const UserLogin = () => {
             <Link aria-label="goto partner" className="role-link" to="/food-partner/login">Partner</Link>
           </div>
         </div>
-        <form className="auth-form" onSubmit={(e) => e.preventDefault()}>
+        <form className="auth-form" onSubmit={handleSubmit}>
           <label htmlFor="email">Email</label>
           <input id="email" name="email" type="email" className="auth-field" placeholder="you@example.com" />
 
@@ -22,7 +46,10 @@ const UserLogin = () => {
           <input id="password" name="password" type="password" className="auth-field" placeholder="Your password" />
 
           <div className="auth-actions">
-            <button type="button" className="ghost-btn">Forgot?</button>
+            <label className="remember">
+              <input type="checkbox" name="remember" aria-label="Remember me" />
+              Remember me
+            </label>
             <button type="submit" className="primary-btn">Sign in</button>
           </div>
 

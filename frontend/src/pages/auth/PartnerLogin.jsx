@@ -1,8 +1,34 @@
 import React from 'react';
 import '../../assets/styles/auth.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const PartnerLogin = () => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    try {
+      const res = await axios.post('/api/auth/partner/login', { email, password }, { withCredentials: true });
+      console.log('Partner login success', res.data);
+      toast.success('Logged in successfully');
+      sessionStorage.setItem('homeSeen', 'true');
+      navigate('/');
+    } catch (err) {
+      const status = err.response?.status;
+      const message = err.response?.data?.message || err.message;
+      if (status === 401 || status === 404 || /not found/i.test(message)) {
+        toast.error('Invalid credentials or partner not found');
+      } else {
+        toast.error('Login failed. Please try again.');
+      }
+      console.error('Partner login failed', err?.response?.data || err.message);
+    }
+  };
+
   return (
     <div className="auth-container">
       <div className="auth-card">
@@ -14,7 +40,7 @@ const PartnerLogin = () => {
             <Link aria-label="goto user login" className="role-link" to="/user/login">User</Link>
           </div>
         </div>
-        <form className="auth-form" onSubmit={(e) => e.preventDefault()}>
+        <form className="auth-form" onSubmit={handleSubmit}>
           <label htmlFor="email">Email</label>
           <input id="email" name="email" type="email" className="auth-field" placeholder="you@kitchen.com" />
 
@@ -22,7 +48,10 @@ const PartnerLogin = () => {
           <input id="password" name="password" type="password" className="auth-field" placeholder="Your password" />
 
           <div className="auth-actions">
-            <button type="button" className="ghost-btn">Forgot?</button>
+            <label className="remember">
+              <input type="checkbox" name="remember" aria-label="Remember me" />
+              Remember me
+            </label>
             <button type="submit" className="primary-btn">Sign in</button>
           </div>
 

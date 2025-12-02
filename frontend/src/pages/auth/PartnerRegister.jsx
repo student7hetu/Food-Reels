@@ -1,8 +1,39 @@
 import React from 'react';
 import '../../assets/styles/auth.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const PartnerRegister = () => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const contactName = e.target.contactName.value;
+    const businessName = e.target.businessName.value;
+    const phone = e.target.phone.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const address = e.target.address.value;
+
+    try {
+      const res = await axios.post('/api/auth/partner/register', { contactName, businessName, phone, email, password, address }, { withCredentials: true });
+      console.log('Partner register success', res.data);
+      toast.success('Partner account created');
+      sessionStorage.setItem('homeSeen', 'true');
+      navigate('/');
+    } catch (err) {
+      const status = err.response?.status;
+      const message = err.response?.data?.message || err.message;
+      if (status === 409 || /already exists/i.test(message)) {
+        toast.error('An account with that email already exists');
+      } else {
+        toast.error('Registration failed. Please try again.');
+      }
+      console.error('Partner register failed:', err?.response?.data || err.message);
+    }
+  };
+
   return (
     <div className="auth-container">
       <div className="auth-card">
@@ -14,7 +45,7 @@ const PartnerRegister = () => {
             <Link aria-label="goto user register" className="role-link" to="/user/register">User</Link>
           </div>
         </div>
-        <form className="auth-form" onSubmit={(e) => e.preventDefault()}>
+        <form className="auth-form" onSubmit={handleSubmit}>
           <label htmlFor="contactName">Contact name</label>
           <input id="contactName" name="contactName" className="auth-field" placeholder="John Doe" />
 

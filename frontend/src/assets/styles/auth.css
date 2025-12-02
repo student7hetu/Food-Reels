@@ -132,6 +132,7 @@ body{
   gap: 0.75rem;
   align-items: center;
   margin-top: 0.35rem;
+  justify-content: space-between; /* keep submit on the right */
 }
 
 .primary-btn{
@@ -144,6 +145,20 @@ body{
   border: none;
   cursor: pointer;
 }
+/* Login forms use a compact primary button in the actions row */
+.login-form .primary-btn{
+  flex: 0 0 auto;
+}
+
+.remember{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.remember input{ width: 16px; height: 16px; }
+
 
 .ghost-btn{
   background: transparent;
