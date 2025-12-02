@@ -1,0 +1,30 @@
+/* Theme variables for the app
+   Centralized theme variables with support for system light/dark preferences */
+
+:root{
+  --bg: #f6f7fb;
+  --text: #111827;
+  --card-bg: #ffffff;
+  --accent: #ff6b6b;
+  --accent-contrast: #ffffff;
+  --muted: #6b7280;
+  --input-bg: #f2f4f7;
+  --border: #e5e7eb;
+  --shadow: 0 6px 18px rgba(16,24,40,0.06);
+  --radius: 12px;
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg: #0b1220;
+    --text: #e6eef8;
+    --card-bg: #0f1724;
+    --accent: #ff8b8b;
+    --accent-contrast: #0b1220;
+    --muted: #98a2b3;
+    --input-bg: #0b1220;
+    --border: #1f2937;
+    --shadow: 0 6px 18px rgba(2,6,23,0.7);
+    --radius: 12px;
+  }
+}
